@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace ComplexAlgebra
 {
     /// <summary>
@@ -18,5 +21,56 @@ namespace ComplexAlgebra
     public class Complex
     {
         // TODO: fill this class\
+        private double _real;
+        private double _imaginary;
+        public Complex(double real, double imaginary)
+        {
+            _real = real;
+            _imaginary = imaginary;
+        }
+        
+        public double Real { get; }
+        
+        public double Imaginary { get; }
+
+        public Complex Complement() => new Complex(_real, -_imaginary);
+
+        public Complex Plus(Complex num)
+        {
+            return new Complex(_real + num._real, _imaginary + num._imaginary);
+        }
+
+        public Complex Minus(Complex num)
+        {
+            return new Complex(_real - num._real, _imaginary - num._imaginary);
+        }
+
+        public double Modulus => Math.Sqrt((_real * _real) + (_imaginary * _imaginary));
+
+        public double Phase => Math.Atan2(_imaginary, _real);
+
+        public override string ToString()
+        {
+            return _real + (_imaginary >= 0 ? " +" : " ") + _imaginary + "i";
+        }
+
+        private sealed class RealImaginaryEqualityComparer : IEqualityComparer<Complex>
+        {
+            public bool Equals(Complex x, Complex y)
+            {
+                if (ReferenceEquals(x, y)) return true;
+                if (ReferenceEquals(x, null)) return false;
+                if (ReferenceEquals(y, null)) return false;
+                if (x.GetType() != y.GetType()) return false;
+                return x._real.Equals(y._real) && x._imaginary.Equals(y._imaginary);
+            }
+
+            public int GetHashCode(Complex obj)
+            {
+                return HashCode.Combine(obj._real, obj._imaginary);
+            }
+        }
+
+        public static IEqualityComparer<Complex> RealImaginaryComparer { get; } = new RealImaginaryEqualityComparer();
     }
 }
