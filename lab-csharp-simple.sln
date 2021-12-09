@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# 
+#
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1-Properties", "1-Properties\1-Properties.csproj", "{1E2941E4-363A-4413-98F7-C1EE05100695}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "2-ComplexAlgebra", "2-ComplexAlgebra\2-ComplexAlgebra.csproj", "{D9B3FDB9-709B-4030-B19E-E7E09B31FD2C}"

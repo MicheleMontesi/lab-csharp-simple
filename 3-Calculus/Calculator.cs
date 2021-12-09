@@ -1,4 +1,5 @@
 using ComplexAlgebra;
+using Microsoft.VisualBasic.CompilerServices;
 
 namespace Calculus
 {
@@ -26,7 +27,60 @@ namespace Calculus
     {
         public const char OperationPlus = '+';
         public const char OperationMinus = '-';
+        
+        private Complex _progressiveValue;
+        private char? _operation;
 
-        // TODO fill this class
+        private bool HasPendingResult => _progressiveValue != null;
+        
+        public Complex Value { get; set; }
+
+        public char? Operation
+        {
+            get => _operation;
+            set
+            {
+                if (HasPendingResult)
+                {
+                    ComputeResult();
+                }
+                _operation = value;
+                _progressiveValue = Value;
+                Value = null;
+            }
+        }
+        
+        public void ComputeResult()
+        {
+            switch (_operation)
+            {
+                case OperationPlus:
+                    Value = _progressiveValue.Plus(Value);
+                    break;
+                case OperationMinus:
+                    Value = _progressiveValue.Minus(Value);
+                    break;
+                case null:
+                default:
+                    break;
+            }
+            _operation = null;
+            _progressiveValue = null;
+        }
+
+        public void Reset()
+        {
+            _operation = null;
+            _progressiveValue = null;
+            Value = null;
+        }
+
+
+        public override string ToString()
+        {
+            var value = Value == null ? "null" : $"({Value.ToString()})";
+            var operation = Operation == null ? "null" : $"'{Operation.ToString()}'";
+            return $"Calculator({nameof(Value)}={value}, {nameof(Operation)}={operation})";
+        }
     }
 }
