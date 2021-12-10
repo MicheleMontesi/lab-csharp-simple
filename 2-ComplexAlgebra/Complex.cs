@@ -33,21 +33,21 @@ namespace ComplexAlgebra
         
         public double Imaginary { get; }
 
-        public Complex Complement() => new Complex(_real, -_imaginary);
+        public Complex Complement() => new Complex(Real, -Imaginary);
 
         public Complex Plus(Complex num)
         {
-            return new Complex(_real + num._real, _imaginary + num._imaginary);
+            return new Complex(Real + num.Real, Imaginary + num.Imaginary);
         }
 
         public Complex Minus(Complex num)
         {
-            return new Complex(_real - num._real, _imaginary - num._imaginary);
+            return new Complex(Real - num.Real, Imaginary - num.Imaginary);
         }
 
-        public double Modulus => Math.Sqrt((_real * _real) + (_imaginary * _imaginary));
+        public double Modulus => Math.Sqrt((Real * Real) + (Imaginary * Imaginary));
 
-        public double Phase => Math.Atan2(_imaginary, _real);
+        public double Phase => Math.Atan2(Imaginary, Real);
 
         public override string ToString()
         {
