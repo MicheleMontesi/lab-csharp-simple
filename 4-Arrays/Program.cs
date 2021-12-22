@@ -41,12 +41,12 @@ namespace Arrays
         /// TODO: implement this method
         public static Complex[] Clone(Complex[] array)
         {
-            var cloned = new Complex[array.Length];
+            var clone = new Complex[array.Length];
             for (var i = 0; i < array.Length; i++)
             {
-                cloned[i] = array[i];
+                clone[i] = array[i];
             }
-            return cloned;
+            return clone;
         }
 
         /// <summary>
@@ -62,17 +62,18 @@ namespace Arrays
         /// <seealso cref="Examples.BubbleSort"/>
         public static Complex[] SortByPhase(Complex[] array)
         {
+            var clone = Clone(array);
             for (var i = 0; i < array.Length; i++)
             {
                 for (var j = i - 1; j >= 0; j--)
                 {
-                    if (array[j + 1].Phase < array[j].Phase)
+                    if (clone[j + 1].Phase < clone[j].Phase)
                     {
                         (array[j], array[j + 1]) = (array[j + 1], array[j]);
                     }
                 }
             }
-            return array;
+            return clone;
         }
         
         /// <summary>
@@ -88,7 +89,7 @@ namespace Arrays
         public static string ArrayToString(Complex[] array)
         {
             var representation = "[";
-            for (int i = 0; i < array.Length - 1; i++)
+            for (var i = 0; i < array.Length - 1; i++)
             {
                 representation += array[i].ToString();
                 representation += "; ";
