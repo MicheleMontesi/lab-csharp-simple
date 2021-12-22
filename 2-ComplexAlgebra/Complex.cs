@@ -21,12 +21,10 @@ namespace ComplexAlgebra
     public class Complex
     {
         // TODO: fill this class\
-        private double _real;
-        private double _imaginary;
         public Complex(double real, double imaginary)
         {
-            _real = real;
-            _imaginary = imaginary;
+            this.Real = real;
+            this.Imaginary = imaginary;
         }
         
         public double Real { get; }
@@ -51,26 +49,35 @@ namespace ComplexAlgebra
 
         public override string ToString()
         {
-            return _real + (_imaginary >= 0 ? " +" : " ") + _imaginary + "i";
+            if (Imaginary == 0.0) return Real.ToString();
+            var imAbs = Math.Abs(Imaginary);
+            var imVal = imAbs == 1.0 ? "" : imAbs.ToString();
+            string sign;
+            if (Real == 0d)
+            {
+                sign = Imaginary > 0 ? "" : "-";
+                return sign + "i" + imVal;
+            }
+            sign = Imaginary > 0 ? "+" : "-";
+            return $"{Real} {sign} i{imVal}";
         }
 
-        private sealed class RealImaginaryEqualityComparer : IEqualityComparer<Complex>
+        protected bool Equals(Complex other)
         {
-            public bool Equals(Complex x, Complex y)
-            {
-                if (ReferenceEquals(x, y)) return true;
-                if (ReferenceEquals(x, null)) return false;
-                if (ReferenceEquals(y, null)) return false;
-                if (x.GetType() != y.GetType()) return false;
-                return x._real.Equals(y._real) && x._imaginary.Equals(y._imaginary);
-            }
-
-            public int GetHashCode(Complex obj)
-            {
-                return HashCode.Combine(obj._real, obj._imaginary);
-            }
+            return Real.Equals(other.Real) && Imaginary.Equals(other.Imaginary);
         }
 
-        public static IEqualityComparer<Complex> RealImaginaryComparer { get; } = new RealImaginaryEqualityComparer();
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((Complex) obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Real, Imaginary);
+        }
     }
 }
